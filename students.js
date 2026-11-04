@@ -41,7 +41,7 @@ class Student {
     }
 }
 
-
+// Students Data
 let studentsList = [
     new Student(1, "Rania", [90, 85, 95], 90),
     new Student(2, "Islam", [45, 48, 42], 80),
@@ -49,11 +49,13 @@ let studentsList = [
     new Student(4, "Misk", [40, 45, 48], 70)
 ];
 
+// Filter struggling students
 let strugglingStudents = studentsList.filter(function(student) {
     let average = student.calculateAverage();
     return average >= 40 && average <= 49;
 });
 
+// Add grace marks
 let graceStudents = strugglingStudents.map(function(student) {
     return {
         id: student.id,
@@ -64,6 +66,7 @@ let graceStudents = strugglingStudents.map(function(student) {
     };
 });
 
+// Calculate grace average
 let totalGraceAverage = graceStudents.reduce(function(total, student) {
     return total + student.newAverage;
 }, 0);
@@ -74,6 +77,7 @@ if (graceStudents.length > 0) {
     finalGraceAverage = totalGraceAverage / graceStudents.length;
 }
 
+// Create students table
 let studentsTable = "";
 
 studentsList.forEach(function(student) {
@@ -89,6 +93,7 @@ studentsList.forEach(function(student) {
         "</tr>";
 });
 
+// Create grace table
 let graceTable = "";
 
 graceStudents.forEach(function(student) {
@@ -106,34 +111,151 @@ if (graceStudents.length === 0) {
     graceTable = "<tr><td colspan='5'>No struggling students found</td></tr>";
 }
 
+// Responsive Design
 let output = document.getElementById("output");
 
 output.innerHTML =
     "<style>" +
-    "body { font-family: Arial; background: #f4f6f9; padding: 20px; }" +
-    "h1 { color: #263b59; }" +
-    "h2 { color: #263b59; margin-top: 30px; }" +
-    "table { width: 100%; border-collapse: collapse; background: white; margin-bottom: 20px; }" +
-    "th { background: #263b59; color: white; padding: 13px; }" +
-    "td { padding: 12px; text-align: center; border-bottom: 1px solid #ddd; }" +
+
+    "* { box-sizing: border-box; }" +
+
+    "body {" +
+        "font-family: Arial, sans-serif;" +
+        "background: #f4f6f9;" +
+        "padding: 20px;" +
+        "margin: 0;" +
+    "}" +
+
+    "#output {" +
+        "width: 100%;" +
+        "max-width: 1100px;" +
+        "margin: auto;" +
+    "}" +
+
+    "h1, h2 { color: #263b59; }" +
+
+    "h2 {" +
+        "margin-top: 30px;" +
+        "margin-bottom: 15px;" +
+    "}" +
+
+    ".table-container {" +
+        "width: 100%;" +
+        "margin-bottom: 25px;" +
+        "overflow-x: auto;" +
+        "-webkit-overflow-scrolling: touch;" +
+    "}" +
+
+    "table {" +
+        "width: 100%;" +
+        "border-collapse: collapse;" +
+        "background: white;" +
+        "border-radius: 8px;" +
+        "overflow: hidden;" +
+    "}" +
+
+    ".students-table { min-width: 700px; }" +
+
+    ".grace-table { min-width: 550px; }" +
+
+"th {" +
+        "background: #263b59;" +
+        "color: white;" +
+        "padding: 13px 8px;" +
+        "font-size: 14px;" +
+        "white-space: nowrap;" +
+    "}" +
+
+    "td {" +
+        "padding: 12px 8px;" +
+        "text-align: center;" +
+        "border-bottom: 1px solid #e5e7eb;" +
+        "font-size: 14px;" +
+        "color: #333;" +
+        "white-space: nowrap;" +
+    "}" +
+
     "tr:hover { background: #f1f5fa; }" +
-    ".average { background: white; padding: 15px; color: #263b59; font-weight: bold; }" +
+
+    ".average {" +
+        "background: white;" +
+        "padding: 16px;" +
+        "color: #263b59;" +
+        "font-weight: bold;" +
+        "border-radius: 8px;" +
+        "width: 100%;" +
+    "}" +
+
+    "@media screen and (max-width: 700px) {" +
+
+        "body { padding: 12px; }" +
+
+        "h1 { font-size: 23px; }" +
+
+        "h2 { font-size: 19px; }" +
+
+        "th, td {" +
+            "padding: 10px 6px;" +
+            "font-size: 12px;" +
+        "}" +
+
+        ".average {" +
+            "font-size: 14px;" +
+            "padding: 14px;" +
+        "}" +
+    "}" +
+
     "</style>" +
 
     "<h2>Students Report</h2>" +
-    "<table>" +
-    "<tr><th>ID</th><th>Name</th><th>Grades</th><th>Attendance</th><th>Average</th><th>Grade</th><th>Final Result</th></tr>" +
-    studentsTable +
-    "</table>" +
+
+    "<div class='table-container'>" +
+        "<table class='students-table'>" +
+            "<tr>" +
+                "<th>ID</th>" +
+                "<th>Name</th>" +
+                "<th>Grades</th>" +
+                "<th>Attendance</th>" +
+                "<th>Average</th>" +
+                "<th>Grade</th>" +
+                "<th>Final Result</th>" +
+            "</tr>" +
+            studentsTable +
+        "</table>" +
+    "</div>" +
 
     "<h2>Grace Report</h2>" +
-    "<table>" +
-    "<tr><th>ID</th><th>Name</th><th>Old Average</th><th>Grace Marks</th><th>New Average</th></tr>" +
-    graceTable +
-    "</table>" +
 
-    "<div class='average'>Grace Average: " +
-    finalGraceAverage.toFixed(2) +
+    "<div class='table-container'>" +
+        "<table class='grace-table'>" +
+            "<tr>" +
+                "<th>ID</th>" +
+                "<th>Name</th>" +
+                "<th>Old Average</th>" +
+                "<th>Grace Marks</th>" +
+                "<th>New Average</th>" +
+            "</tr>" +
+            graceTable +
+        "</table>" +
+    "</div>" +
+
+    "<div class='average'>" +
+        "Grace Average: " + finalGraceAverage.toFixed(2) +
     "</div>";
 
+// Console Report
 console.log("Students Report:");
+
+studentsList.forEach(function(student) {
+    console.log(
+        student.id,
+        student.name,
+        "Average:", student.calculateAverage().toFixed(2),
+        "Grade:", student.getGrade(),
+        "Result:", student.getFinalResult()
+    );
+});
+
+console.log("Struggling Students:", strugglingStudents);
+console.log("Grace Students:", graceStudents);
+console.log("Grace Average:", finalGraceAverage.toFixed(2));
